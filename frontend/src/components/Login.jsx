@@ -8,8 +8,11 @@ import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
-import { useEffect } from "react";
+import { Alert, Snackbar } from "@mui/material";
+import { useState } from "react";
 function Login() {
+  const [loginState, setLoginState] = useState("base");
+
   const handleSubmit = async (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
@@ -24,15 +27,17 @@ function Login() {
       }),
     });
     if (response.ok) {
-      const responseData = await response.json();
-      let token = responseData.headers.get("Authorization");
+      setLoginState("success");
+      let token = response.headers.get("Authorization");
       if (token != null) {
         localStorage.setItem("token", token);
         localStorage.setItem("username", data.get("username"));
       }
+    } else {
+      setLoginState("fail");
     }
   };
-  return (
+  return loginState === "base" ? (
     <Container component="main" maxWidth="xs">
       <CssBaseline />
       <Box
@@ -47,6 +52,9 @@ function Login() {
           Sign in
         </Typography>
         <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
+          {loginState === "fail" && (
+            <Alert severity="error">Incorrect username or password!</Alert>
+          )}
           <TextField
             margin="normal"
             required
@@ -57,6 +65,9 @@ function Login() {
             autoComplete="username"
             autoFocus
           />
+          {loginState === "fail" && (
+            <Alert severity="error">Incorrect username or password!</Alert>
+          )}
           <TextField
             margin="normal"
             required
@@ -92,6 +103,20 @@ function Login() {
             </Grid>
           </Grid>
         </Box>
+      </Box>
+    </Container>
+  ) : (
+    <Container component="main" maxWidth="xs">
+      <CssBaseline />
+      <Box
+        sx={{
+          marginTop: 8,
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+        }}
+      >
+        <div>Welcome back {localStorage.getItem("username")}</div>
       </Box>
     </Container>
   );
