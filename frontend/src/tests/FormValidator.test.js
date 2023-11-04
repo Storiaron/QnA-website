@@ -1,27 +1,43 @@
-import { validateRegistrationForm } from "../FormValidator";
+import { validatePasswordFields } from "../FormValidator";
 
 const passwordMatchingTests = [
     {
-        registrationForm: { password: "1234", passwordRepeated: "1234"},
-        expected: true
+        registrationForm: { password: "12&34Aa", passwordRepeated: "12&34Aa"},
+        expected: "good"
     },
     {
-        registrationForm: { password: "testP", passwordRepeated: "testP"},
-        expected: true
+        registrationForm: { password: "testP1aaaaaaaa", passwordRepeated: "testP1aaaaaaaa"},
+        expected: "good"
     },
     {
         registrationForm: { password: "1234", passwordRepeated: "123"},
-        expected: false
+        expected: "passwords must match"
     },
     {
         registrationForm: { password: "", passwordRepeated: "1234"},
-        expected: false
+        expected: "passwords must match"
     },
     {
         registrationForm: { password: "abcABC", passwordRepeated: "abcABc"},
-        expected: false
+        expected: "passwords must match"
+    },
+    {
+        registrationForm: { password: "", passwordRepeated: ""},
+        expected: "password field must not be empty"
+    },
+    {
+        registrationForm: { password: "1234", passwordRepeated: "1234"},
+        expected: "password is too weak"
+    },
+    {
+        registrationForm: { password: "abc", passwordRepeated: "abc"},
+        expected: "password is too weak"
+    },
+    {
+        registrationForm: { password: "ABC", passwordRepeated: "ABC"},
+        expected: "password is too weak"
     },
 ]
-test.each(passwordMatchingTests)('password and re-enter password fields should have the same value', (registrationForm, expected) =>{
-    expect(validateRegistrationForm(registrationForm)).toBe(expected);
+test.each(passwordMatchingTests)('password  field validations', ({registrationForm, expected}) =>{
+    expect(validatePasswordFields(registrationForm)).toEqual(expected);
 })
