@@ -12,8 +12,9 @@ import { Alert } from "@mui/material";
 import { useEffect, useState } from "react";
 import { validatePasswordFields } from "../utils/FormValidator";
 function Register() {
+  const [usernameError, setUsernameError] = useState("");
   const [passwordError, setPasswordError] = useState("");
-  const handleSubmit = (event) => {
+  const handleSubmit = async(event) => {
     event.preventDefault();
     let data = new FormData(event.currentTarget);
     data = {
@@ -26,13 +27,15 @@ function Register() {
       setPasswordError(validatePasswordFields(data));
     } else {
       delete data.passwordRepeated;
-      fetch("/api/register", {
+      const response = await fetch("/api/user/register", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify(data),
       });
+      const isUsernameTaken = await response.json();
+      console.log(isUsernameTaken);
     }
   };
   return (
@@ -60,6 +63,7 @@ function Register() {
             autoComplete="email"
             autoFocus
           />
+          {usernameError && <Alert severity="error">{usernameError}</Alert>}
           <TextField
             margin="normal"
             required

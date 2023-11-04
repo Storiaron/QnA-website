@@ -19,6 +19,7 @@ public class QnAUser {
     private Set<Comment> comments;
     @OneToMany
     private Set<Post> posts;
+    private String email;
     private String username;
     private String password;
     @Enumerated(EnumType.STRING)
