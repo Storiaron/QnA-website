@@ -1,4 +1,4 @@
-import { validatePasswordFields } from "../FormValidator";
+import { validatePasswordFields } from "../utils/FormValidator";
 
 const passwordMatchingTests = [
     {

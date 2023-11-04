@@ -18,5 +18,4 @@ function isPasswordStrongEnough(password){
     if(/[!@#$%^&*()_+{}\[\]:;<>,.?~\\/\-=|"']/.test(password)) score++;
     return score >= 2;
 }
-
 export {validatePasswordFields}
