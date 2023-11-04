@@ -21,5 +21,6 @@ public class QnAUser {
     private Set<Post> posts;
     private String username;
     private String password;
+    @Enumerated(EnumType.STRING)
     private Role role;
 }

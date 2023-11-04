@@ -1,11 +1,10 @@
-package com.storiaron.qna.security;
+package com.storiaron.qna.service;
 
 import com.storiaron.qna.model.QnAUser;
 import com.storiaron.qna.repository.QnAUserRepository;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -17,11 +16,11 @@ public class QnAUserDetailService implements UserDetailsService {
     }
 
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+    public UserDetails loadUserByUsername(String username) {
         QnAUser qnAUser = qnAUserRepository.findByUsername(username);
-        return User.withUsername(qnAUser.getUsername())
+        return qnAUser != null ? User.withUsername(qnAUser.getUsername())
                 .password(qnAUser.getPassword())
                 .roles(String.valueOf(qnAUser.getRole()))
-                .build();
+                .build() : null;
     }
 }
