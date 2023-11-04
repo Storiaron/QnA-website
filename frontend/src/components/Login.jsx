@@ -10,9 +10,10 @@ import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { Alert, Snackbar } from "@mui/material";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 function Login() {
-  const [loginState, setLoginState] = useState("base");
-
+  const [loginError, setLoginError] = useState(false);
+  const navigate = useNavigate();
   const handleSubmit = async (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
@@ -27,17 +28,17 @@ function Login() {
       }),
     });
     if (response.ok) {
-      setLoginState("success");
       let token = response.headers.get("Authorization");
       if (token != null) {
         localStorage.setItem("token", token);
         localStorage.setItem("username", data.get("username"));
+        navigate("/");
       }
     } else {
-      setLoginState("fail");
+      setLoginError("true");
     }
   };
-  return loginState === "base" ? (
+  return (
     <Container component="main" maxWidth="xs">
       <CssBaseline />
       <Box
@@ -52,7 +53,7 @@ function Login() {
           Sign in
         </Typography>
         <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
-          {loginState === "fail" && (
+          {loginError && (
             <Alert severity="error">Incorrect username or password!</Alert>
           )}
           <TextField
@@ -65,7 +66,7 @@ function Login() {
             autoComplete="username"
             autoFocus
           />
-          {loginState === "fail" && (
+          {loginError && (
             <Alert severity="error">Incorrect username or password!</Alert>
           )}
           <TextField
@@ -105,21 +106,7 @@ function Login() {
         </Box>
       </Box>
     </Container>
-  ) : (
-    <Container component="main" maxWidth="xs">
-      <CssBaseline />
-      <Box
-        sx={{
-          marginTop: 8,
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-        }}
-      >
-        <div>Welcome back {localStorage.getItem("username")}</div>
-      </Box>
-    </Container>
-  );
+  )
 }
 
 export default Login;
