@@ -9,13 +9,15 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { useEffect } from 'react';
-function Login(){
+function Register(){
     const handleSubmit = (event) => {
         event.preventDefault();
         const data = new FormData(event.currentTarget);
         console.log({
           username: data.get('username'),
           password: data.get('password'),
+          passwordRepeated: data.get('passwordRepeated'),
+          email: data.get('email')
         });
       };
     return (
@@ -37,6 +39,16 @@ function Login(){
               margin="normal"
               required
               fullWidth
+              id="email"
+              label="Email address"
+              name="email"
+              autoComplete="email"
+              autoFocus
+            />
+            <TextField
+              margin="normal"
+              required
+              fullWidth
               id="username"
               label="Username"
               name="username"
@@ -51,11 +63,15 @@ function Login(){
               label="Password"
               type="password"
               id="password"
-              autoComplete="current-password"
             />
-            <FormControlLabel
-              control={<Checkbox value="remember" color="primary" />}
-              label="Remember me"
+            <TextField
+              margin="normal"
+              required
+              fullWidth
+              name="passwordRepeated"
+              label="Re-enter password"
+              type="password"
+              id="password"
             />
             <Button
               type="submit"
@@ -82,5 +98,4 @@ function Login(){
       </Container>
     )
 }
-
-export default Login;
+export default Register;
