@@ -31,8 +31,8 @@ public class WebSecurityConfig {
         http.csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(HttpMethod.POST, "/api/user/register").permitAll()
-                        .requestMatchers(HttpMethod.GET, "/api/content/post/newest").permitAll()
-                        .requestMatchers(HttpMethod.GET, "/api/content/comment/newest").permitAll()
+                        .requestMatchers(HttpMethod.PUT, "/api/content/post/newest").permitAll()
+                        .requestMatchers(HttpMethod.PUT, "/api/content/comment/newest").permitAll()
                         //for testing
                         .requestMatchers(HttpMethod.POST, "/api/content/post").permitAll()
                         .requestMatchers(HttpMethod.POST, "/api/content/comment").permitAll()

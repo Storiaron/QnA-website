@@ -1,18 +1,25 @@
-import { List, ListItem, Divider, ListItemText, Typography } from "@mui/material";
+import { List, ListItem, Divider, ListItemText, Typography, useMediaQuery } from "@mui/material";
 import { useState } from "react";
-function Post(){
-    const [title, setTitle] = useState("")
-    return <List sx={{ width: '70%', margin: "auto", bgcolor: 'linen', boxShadow: "4px 4px lightblue" }}>
+function Post(props){
+  const isMobile = useMediaQuery((theme) => theme.breakpoints.down("sm"))
+    return <List
+    sx={{
+      width: isMobile ? "100%" : "70%", 
+      margin: "auto",
+      bgcolor: 'linen',
+      boxShadow: "4px 4px lightblue",
+    }}
+  >
     <ListItem alignItems="flex-start">
       <ListItemText
-        primary={title}
+        primary={props.title}
         secondary={
               <Typography
                 sx={{ display: 'inline' }}
                 component="span"
                 variant="body2"
-                color="text.primary"
-              >random text</Typography>}
+                color="text.secondary"
+              >{props.body ? props.body.slice(0, 10) + "..." : "..."}</Typography>}
       />
     </ListItem>
     <Divider variant="inset" component="li" />

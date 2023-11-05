@@ -8,7 +8,10 @@ import Login from "./components/Login";
 import Register from "./components/Register";
 import Header from "./components/Header";
 import MainPage from "./components/MainPage";
+import { ThemeProvider } from "@emotion/react";
+import { createTheme } from "@mui/material/styles";
 const root = ReactDOM.createRoot(document.getElementById("root"));
+const theme = createTheme();
 const router = createBrowserRouter([
   {
     path: "/",
@@ -31,7 +34,9 @@ const router = createBrowserRouter([
 ]);
 root.render(
   <React.StrictMode>
-    <RouterProvider router={router} />
+    <ThemeProvider theme={theme}>
+      <RouterProvider router={router} />
+    </ThemeProvider>
   </React.StrictMode>
 );
 reportWebVitals();

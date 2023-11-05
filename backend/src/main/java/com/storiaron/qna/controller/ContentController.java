@@ -22,7 +22,7 @@ public class ContentController {
         this.contentService = contentService;
     }
 
-    @GetMapping("/post/newest")
+    @PutMapping("/post/newest")
     public Set<Post> getNewestPosts(@RequestBody PostAutoLoadDTO postAutoLoadDTO){
         System.out.println(postAutoLoadDTO);
         return contentService.getNewestPosts(postAutoLoadDTO);
@@ -31,7 +31,7 @@ public class ContentController {
     public void addPost(@RequestBody PostDTO postDTO){
         contentService.addPost(postDTO);
     }
-    @GetMapping("/comment/newest")
+    @PutMapping("/comment/newest")
     public Set<Comment> getNewestComments(@RequestBody CommentAutoLoadDTO commentAutoLoadDTO){
         return contentService.getNewestComments(commentAutoLoadDTO);
     }
