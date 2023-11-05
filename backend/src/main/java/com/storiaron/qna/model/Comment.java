@@ -19,11 +19,11 @@ public class Comment {
     private String text;
     private int upVotes;
     private int downVotes;
-    private LocalDateTime timeOfPosting;
+    private LocalDateTime timeOfWriting;
     @ManyToOne
-    @JsonBackReference
+    @JsonBackReference(value = "post-comment")
     private Post parentPost;
     @ManyToOne
-    @JsonBackReference
+    @JsonBackReference(value = "user-comment")
     private QnAUser postedBy;
 }

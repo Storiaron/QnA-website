@@ -17,10 +17,10 @@ public class QnAUser {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     @OneToMany
-    @JsonManagedReference
+    @JsonManagedReference(value = "user-comment")
     private Set<Comment> comments;
     @OneToMany
-    @JsonManagedReference
+    @JsonManagedReference(value = "user-post")
     private Set<Post> posts;
     private String email;
     private String username;

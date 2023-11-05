@@ -18,13 +18,13 @@ public class Post {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     @OneToMany
-    @JsonManagedReference
+    @JsonManagedReference(value = "post-comment")
     private Set<Comment> comments;
     private String title;
     private LocalDateTime timeOfWriting;
     private int upVotes;
     private int downVotes;
     @ManyToOne
-    @JsonBackReference
+    @JsonBackReference(value = "user-post")
     private QnAUser qnAUser;
 }
