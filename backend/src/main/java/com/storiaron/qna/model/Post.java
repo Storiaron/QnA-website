@@ -21,6 +21,7 @@ public class Post {
     @JsonManagedReference(value = "post-comment")
     private Set<Comment> comments;
     private String title;
+    private String body;
     private LocalDateTime timeOfWriting;
     private int upVotes;
     private int downVotes;

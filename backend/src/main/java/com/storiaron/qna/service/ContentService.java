@@ -1,6 +1,7 @@
 package com.storiaron.qna.service;
 
 import com.storiaron.qna.dto.AutoLoadingDTO;
+import com.storiaron.qna.dto.PostDTO;
 import com.storiaron.qna.model.Comment;
 import com.storiaron.qna.model.Post;
 import com.storiaron.qna.model.QnAUser;
@@ -11,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.Set;
 
 @Service
@@ -42,9 +44,14 @@ public class ContentService {
         }
     }
     @Transactional
-    public void addPost(Post post){
-        QnAUser qnAUser = qnAUserRepository.findByUsername(post.getQnAUser().getUsername());
+    public void addPost(PostDTO postDTO){
+        QnAUser qnAUser = qnAUserRepository.findByUsername(postDTO.getUsername());
         if(qnAUser != null){
+            Post post = new Post();
+            post.setBody(postDTO.getBody());
+            post.setTitle(postDTO.getTitle());
+            post.setQnAUser(qnAUser);
+            post.setTimeOfWriting(LocalDateTime.now());
             qnAUser.setPosts(Set.of(post));
             qnAUserRepository.save(qnAUser);
             postRepository.save(post);
