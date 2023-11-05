@@ -1,6 +1,8 @@
 package com.storiaron.qna.controller;
 
-import com.storiaron.qna.dto.AutoLoadingDTO;
+import com.storiaron.qna.dto.CommentAutoLoadDTO;
+import com.storiaron.qna.dto.PostAutoLoadDTO;
+import com.storiaron.qna.dto.CommentDTO;
 import com.storiaron.qna.dto.PostDTO;
 import com.storiaron.qna.model.Comment;
 import com.storiaron.qna.model.Post;
@@ -21,20 +23,20 @@ public class ContentController {
     }
 
     @GetMapping("/post/newest")
-    public Set<Post> getNewestPosts(@RequestBody AutoLoadingDTO autoLoadingDTO){
-        System.out.println(autoLoadingDTO);
-        return contentService.getNewestPosts(autoLoadingDTO);
+    public Set<Post> getNewestPosts(@RequestBody PostAutoLoadDTO postAutoLoadDTO){
+        System.out.println(postAutoLoadDTO);
+        return contentService.getNewestPosts(postAutoLoadDTO);
     }
     @PostMapping("/post")
     public void addPost(@RequestBody PostDTO postDTO){
         contentService.addPost(postDTO);
     }
     @GetMapping("/comment/newest")
-    public Set<Comment> getNewestComments(@RequestBody AutoLoadingDTO autoLoadingDTO){
-        return contentService.getNewestComments(autoLoadingDTO);
+    public Set<Comment> getNewestComments(@RequestBody CommentAutoLoadDTO commentAutoLoadDTO){
+        return contentService.getNewestComments(commentAutoLoadDTO);
     }
-   /* @PostMapping("/comment")
-    public void addComment(@RequestBody Comment comment){
-        contentService.addComment(comment);
-    } */
+    @PostMapping("/comment")
+    public void addComment(@RequestBody CommentDTO commentDTO){
+        contentService.addComment(commentDTO);
+    }
 }

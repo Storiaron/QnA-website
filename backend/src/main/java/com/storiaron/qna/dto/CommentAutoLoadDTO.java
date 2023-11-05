@@ -9,15 +9,8 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @Getter
 @Setter
-public class AutoLoadingDTO {
+public class CommentAutoLoadDTO {
     private LocalDateTime startingFrom;
     private boolean isInDataSavingMode;
-
-    @Override
-    public String toString() {
-        return "AutoLoadingDTO{" +
-                "startingFrom=" + startingFrom +
-                ", isInDataSavingMode=" + isInDataSavingMode +
-                '}';
-    }
+    private Long parentPostId;
 }
