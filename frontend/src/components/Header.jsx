@@ -8,13 +8,19 @@ import AccountCircle from "@mui/icons-material/AccountCircle";
 import Switch from "@mui/material/Switch";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import FormGroup from "@mui/material/FormGroup";
-import { Avatar } from "@mui/material";
+import Dialog from '@mui/material/Dialog';
+import DialogTitle from '@mui/material/DialogTitle';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogActions from '@mui/material/DialogActions';
+import { Avatar, Button } from "@mui/material";
 import MenuItem from "@mui/material/MenuItem";
 import Menu from "@mui/material/Menu";
 import { useState } from "react";
 import { Outlet, useNavigate } from "react-router-dom";
 
 function MenuAppBar() {
+  const [isLogoutSuccessOpen, setLogoutSuccessOpen] = useState(false);
   const [anchorEl, setAnchorEl] = useState(null);
   const [menuAnchor, setMenuAnchor] = useState(null);
   let loggedInUser = localStorage.getItem("username");
@@ -22,18 +28,31 @@ function MenuAppBar() {
   const handleMenu = (event) => {
     setAnchorEl(event.currentTarget);
   };
+  const handleLogoutSuccessOpen = () => {
+    setLogoutSuccessOpen(true);
+  };
 
+  const handleLogoutSuccessClose = () => {
+    setLogoutSuccessOpen(false);
+  };
   const handleClose = () => {
     setAnchorEl(null);
   };
   const handleMenuClose = () => {
     setMenuAnchor(null);
   };
+  const handleLog = () => {
+    localStorage.getItem("username") ? handleLogOut() : handleLogin();
+  };
   const handleLogOut = () => {
     handleClose();
+    handleLogoutSuccessOpen();
     localStorage.clear();
     navigate("/");
-  };
+  }
+  const handleLogin = () => {
+    navigate("/login");
+  }
 
   return (
     <div>
@@ -67,7 +86,7 @@ function MenuAppBar() {
               </Menu>
             </IconButton>
             <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-              Menu
+              
             </Typography>
             <div>
               <IconButton
@@ -96,15 +115,37 @@ function MenuAppBar() {
                 onClose={handleClose}
               >
                 <MenuItem onClick={handleClose}>Profile</MenuItem>
-                <MenuItem onClick={handleLogOut}>Log out</MenuItem>
+                <MenuItem onClick={handleLog}>{localStorage.getItem("username") ? "Log out" : "Login"}</MenuItem>
               </Menu>
             </div>
           </Toolbar>
         </AppBar>
       </Box>
+      <LogoutSuccessPopup
+        open={isLogoutSuccessOpen}
+        onClose={handleLogoutSuccessClose}
+      />
       <Outlet />
     </div>
   );
 }
+
+function LogoutSuccessPopup({ open, onClose }) {
+  return (
+    <Dialog open={open} onClose={onClose}>
+      <DialogTitle>Logout Success</DialogTitle>
+      <DialogContent>
+        <DialogContentText>
+          You have successfully logged out.
+        </DialogContentText>
+      </DialogContent>
+      <DialogActions>
+        <Button onClick={onClose} color="primary" autoFocus>
+          Close
+        </Button>
+      </DialogActions>
+    </Dialog>
+  );
+};
 
 export default MenuAppBar;

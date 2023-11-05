@@ -8,6 +8,7 @@ import Login from "./components/Login";
 import Register from "./components/Register";
 import Header from "./components/Header";
 import MainPage from "./components/MainPage";
+import Post from "./components/Post";
 import { ThemeProvider } from "@emotion/react";
 import { createTheme } from "@mui/material/styles";
 const root = ReactDOM.createRoot(document.getElementById("root"));
@@ -29,6 +30,10 @@ const router = createBrowserRouter([
         path: "/register",
         element: <Register />,
       },
+      {
+        path: "/post/:id",
+        element: <Post />
+      }
     ],
   },
 ]);

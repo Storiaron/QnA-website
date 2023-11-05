@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import InfiniteScroll from "react-infinite-scroll-component";
-import Post from "./Post";
+import PostDisplay from "./PostDisplay";
 function MainPage() {
   //TODO isInDataSavingMode is set to false for now
   const [hasMore, setHasMore] = useState(true);
@@ -38,7 +38,6 @@ function MainPage() {
   useEffect(() => {
     fetchContent();
   }, []);
-  console.log(content);
   return (
     <InfiniteScroll
       dataLength={content.length}
@@ -48,7 +47,7 @@ function MainPage() {
       endMessage={<p>You have seen everything.</p>}
     >
       {content.map((post) => (
-        <Post key={post.id} title={post.title} body={post.body}/>
+        <PostDisplay key={post.id} title={post.title} body={post.body}/>
       ))}
     </InfiniteScroll>
   );
