@@ -1,5 +1,6 @@
 package com.storiaron.qna.model;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -16,8 +17,10 @@ public class QnAUser {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     @OneToMany
+    @JsonManagedReference
     private Set<Comment> comments;
     @OneToMany
+    @JsonManagedReference
     private Set<Post> posts;
     private String email;
     private String username;

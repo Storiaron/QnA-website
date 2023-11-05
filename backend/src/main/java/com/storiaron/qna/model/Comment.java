@@ -6,6 +6,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.time.LocalDateTime;
+
 @Entity
 @Getter
 @Setter
@@ -17,7 +19,11 @@ public class Comment {
     private String text;
     private int upVotes;
     private int downVotes;
+    private LocalDateTime timeOfPosting;
     @ManyToOne
     @JsonBackReference
     private Post parentPost;
+    @ManyToOne
+    @JsonBackReference
+    private QnAUser postedBy;
 }
