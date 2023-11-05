@@ -52,9 +52,9 @@ public class ContentService {
             post.setTitle(postDTO.getTitle());
             post.setQnAUser(qnAUser);
             post.setTimeOfWriting(LocalDateTime.now());
-            qnAUser.setPosts(Set.of(post));
-            qnAUserRepository.save(qnAUser);
             postRepository.save(post);
+            qnAUser.getPosts().add(post);
+            qnAUserRepository.save(qnAUser);
         }
     }
 }

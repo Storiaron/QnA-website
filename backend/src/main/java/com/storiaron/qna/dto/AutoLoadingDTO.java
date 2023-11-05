@@ -12,4 +12,12 @@ import java.time.LocalDateTime;
 public class AutoLoadingDTO {
     private LocalDateTime startingFrom;
     private boolean isInDataSavingMode;
+
+    @Override
+    public String toString() {
+        return "AutoLoadingDTO{" +
+                "startingFrom=" + startingFrom +
+                ", isInDataSavingMode=" + isInDataSavingMode +
+                '}';
+    }
 }

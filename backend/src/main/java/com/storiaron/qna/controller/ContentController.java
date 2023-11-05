@@ -22,6 +22,7 @@ public class ContentController {
 
     @GetMapping("/post/newest")
     public Set<Post> getNewestPosts(@RequestBody AutoLoadingDTO autoLoadingDTO){
+        System.out.println(autoLoadingDTO);
         return contentService.getNewestPosts(autoLoadingDTO);
     }
     @PostMapping("/post")
