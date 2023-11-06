@@ -2,8 +2,8 @@ package com.storiaron.qna.service;
 
 import com.storiaron.qna.dto.CommentAutoLoadDTO;
 import com.storiaron.qna.dto.PostAutoLoadDTO;
-import com.storiaron.qna.dto.CommentDTO;
-import com.storiaron.qna.dto.PostDTO;
+import com.storiaron.qna.dto.newdto.NewCommentDTO;
+import com.storiaron.qna.dto.newdto.NewPostDTO;
 import com.storiaron.qna.model.Comment;
 import com.storiaron.qna.model.Post;
 import com.storiaron.qna.model.QnAUser;
@@ -50,12 +50,12 @@ public class ContentService {
         }
     }
     @Transactional
-    public void addPost(PostDTO postDTO){
-        QnAUser qnAUser = qnAUserRepository.findByUsername(postDTO.getUsername());
+    public void addPost(NewPostDTO newPostDTO){
+        QnAUser qnAUser = qnAUserRepository.findByUsername(newPostDTO.getUsername());
         if(qnAUser != null){
             Post post = new Post();
-            post.setBody(postDTO.getBody());
-            post.setTitle(postDTO.getTitle());
+            post.setBody(newPostDTO.getBody());
+            post.setTitle(newPostDTO.getTitle());
             post.setQnAUser(qnAUser);
             post.setTimeOfWriting(LocalDateTime.now());
             postRepository.save(post);
@@ -64,12 +64,12 @@ public class ContentService {
         }
     }
     @Transactional
-    public void addComment(CommentDTO commentDTO){
-        Post post = postRepository.getReferenceById(commentDTO.getIdOfParentPost());
-        QnAUser qnAUser = qnAUserRepository.findByUsername(commentDTO.getUsername());
+    public void addComment(NewCommentDTO newCommentDTO){
+        Post post = postRepository.getReferenceById(newCommentDTO.getIdOfParentPost());
+        QnAUser qnAUser = qnAUserRepository.findByUsername(newCommentDTO.getUsername());
         if(post != null && qnAUser != null){
             Comment comment = new Comment();
-            comment.setBody(commentDTO.getBody());
+            comment.setBody(newCommentDTO.getBody());
             comment.setTimeOfWriting(LocalDateTime.now());
             comment.setPostedBy(qnAUser);
             comment.setParentPost(post);
@@ -78,5 +78,8 @@ public class ContentService {
             postRepository.save(post);
             qnAUserRepository.save(qnAUser);
         }
+    }
+    public Post getPost(Long id){
+        return postRepository.findById(id).get();
     }
 }

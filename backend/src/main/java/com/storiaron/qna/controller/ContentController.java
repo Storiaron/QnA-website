@@ -2,8 +2,8 @@ package com.storiaron.qna.controller;
 
 import com.storiaron.qna.dto.CommentAutoLoadDTO;
 import com.storiaron.qna.dto.PostAutoLoadDTO;
-import com.storiaron.qna.dto.CommentDTO;
-import com.storiaron.qna.dto.PostDTO;
+import com.storiaron.qna.dto.newdto.NewCommentDTO;
+import com.storiaron.qna.dto.newdto.NewPostDTO;
 import com.storiaron.qna.model.Comment;
 import com.storiaron.qna.model.Post;
 import com.storiaron.qna.service.ContentService;
@@ -21,22 +21,24 @@ public class ContentController {
     public ContentController(ContentService contentService) {
         this.contentService = contentService;
     }
-
+    @GetMapping("/post/{id}")
+    public Post getPost(@PathVariable Long id){
+        return contentService.getPost(id);
+    }
     @PutMapping("/post/newest")
     public Set<Post> getNewestPosts(@RequestBody PostAutoLoadDTO postAutoLoadDTO){
-        System.out.println(postAutoLoadDTO);
         return contentService.getNewestPosts(postAutoLoadDTO);
     }
     @PostMapping("/post")
-    public void addPost(@RequestBody PostDTO postDTO){
-        contentService.addPost(postDTO);
+    public void addPost(@RequestBody NewPostDTO newPostDTO){
+        contentService.addPost(newPostDTO);
     }
     @PutMapping("/comment/newest")
     public Set<Comment> getNewestComments(@RequestBody CommentAutoLoadDTO commentAutoLoadDTO){
         return contentService.getNewestComments(commentAutoLoadDTO);
     }
     @PostMapping("/comment")
-    public void addComment(@RequestBody CommentDTO commentDTO){
-        contentService.addComment(commentDTO);
+    public void addComment(@RequestBody NewCommentDTO newCommentDTO){
+        contentService.addComment(newCommentDTO);
     }
 }

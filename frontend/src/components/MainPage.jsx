@@ -9,6 +9,7 @@ function MainPage() {
   );
   const [content, setContent] = useState([]);
   const fetchContent = async () => {
+    console.log(dateOfLastLoadedContent)
     const response = await fetch("/api/content/post/newest", {
       method: "PUT",
       headers: {
@@ -32,7 +33,7 @@ function MainPage() {
 
         return oldest;
       }, newContent[0]);
-      setDateOfLastLoadedContent(oldestDate);
+      setDateOfLastLoadedContent(oldestDate.timeOfWriting);
     }
   };
   useEffect(() => {
@@ -47,7 +48,7 @@ function MainPage() {
       endMessage={<p>You have seen everything.</p>}
     >
       {content.map((post) => (
-        <PostDisplay key={post.id} title={post.title} body={post.body}/>
+        <PostDisplay key={post.id} title={post.title} body={post.body} id={post.id}/>
       ))}
     </InfiniteScroll>
   );
