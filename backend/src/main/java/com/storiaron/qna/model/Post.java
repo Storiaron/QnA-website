@@ -1,11 +1,13 @@
 package com.storiaron.qna.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.time.LocalDateTime;
 import java.util.Set;
 @Entity
 @Getter
@@ -16,8 +18,14 @@ public class Post {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     @OneToMany
-    @JsonManagedReference
+    @JsonManagedReference(value = "post-comment")
     private Set<Comment> comments;
+    private String title;
+    private String body;
+    private LocalDateTime timeOfWriting;
     private int upVotes;
     private int downVotes;
+    @ManyToOne
+    @JsonBackReference(value = "user-post")
+    private QnAUser qnAUser;
 }

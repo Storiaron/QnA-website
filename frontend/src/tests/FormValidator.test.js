@@ -1,4 +1,4 @@
-import { validatePasswordFields } from "../utils/FormValidator";
+import { validatePasswordFields, isEmailValid } from "../utils/FormValidator";
 
 const passwordMatchingTests = [
     {
@@ -40,4 +40,33 @@ const passwordMatchingTests = [
 ]
 test.each(passwordMatchingTests)('password  field validations', ({registrationForm, expected}) =>{
     expect(validatePasswordFields(registrationForm)).toEqual(expected);
+})
+const emailTests = [
+    {
+        email: "",
+        expected: false
+    },
+    {
+        email: "1234@",
+        expected: false
+    },
+    {
+        email: "abc@gmail@.com",
+        expected: false
+    },
+    {
+        email: "abc@gmail.commmm",
+        expected: false
+    },
+    {
+        email: "abc@gmail.comm",
+        expected: true
+    },
+    {
+        email: "abc@gmail.de",
+        expected: true
+    },
+]
+test.each(emailTests)('email tests', ({email, expected}) =>{
+    expect(isEmailValid(email)).toEqual(expected);
 })

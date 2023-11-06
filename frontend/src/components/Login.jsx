@@ -8,8 +8,12 @@ import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
-import { useEffect } from "react";
+import { Alert, Snackbar } from "@mui/material";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 function Login() {
+  const [loginError, setLoginError] = useState(false);
+  const navigate = useNavigate();
   const handleSubmit = async (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
@@ -24,12 +28,14 @@ function Login() {
       }),
     });
     if (response.ok) {
-      const responseData = await response.json();
-      let token = responseData.headers.get("Authorization");
+      let token = response.headers.get("Authorization");
       if (token != null) {
         localStorage.setItem("token", token);
         localStorage.setItem("username", data.get("username"));
+        navigate("/");
       }
+    } else {
+      setLoginError("true");
     }
   };
   return (
@@ -47,6 +53,9 @@ function Login() {
           Sign in
         </Typography>
         <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
+          {loginError && (
+            <Alert severity="error">Incorrect username or password!</Alert>
+          )}
           <TextField
             margin="normal"
             required
@@ -57,6 +66,9 @@ function Login() {
             autoComplete="username"
             autoFocus
           />
+          {loginError && (
+            <Alert severity="error">Incorrect username or password!</Alert>
+          )}
           <TextField
             margin="normal"
             required
@@ -94,7 +106,7 @@ function Login() {
         </Box>
       </Box>
     </Container>
-  );
+  )
 }
 
 export default Login;

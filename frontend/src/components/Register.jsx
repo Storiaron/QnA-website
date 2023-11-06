@@ -10,11 +10,12 @@ import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { Alert } from "@mui/material";
 import { useEffect, useState } from "react";
-import { validatePasswordFields } from "../utils/FormValidator";
+import { validatePasswordFields, isEmailValid } from "../utils/FormValidator";
 function Register() {
   const [usernameError, setUsernameError] = useState("");
   const [passwordError, setPasswordError] = useState("");
-  const handleSubmit = async(event) => {
+  const [emailError, setEmailError] = useState('');
+  const handleSubmit = async (event) => {
     event.preventDefault();
     let data = new FormData(event.currentTarget);
     data = {
@@ -26,17 +27,22 @@ function Register() {
     if (validatePasswordFields(data) !== "good") {
       setPasswordError(validatePasswordFields(data));
     } else {
-      delete data.passwordRepeated;
-      const response = await fetch("/api/user/register", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(data),
-      });
-      const wasSuccesful = await response.json();
-      if(!wasSuccesful){
-        setUsernameError("That username is already taken")
+      if (isEmailValid(data.get("email"))) {
+        delete data.passwordRepeated;
+        const response = await fetch("/api/user/register", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(data),
+        });
+        const wasSuccesful = await response.json();
+        if (!wasSuccesful) {
+          setUsernameError("That username is already taken");
+        }
+      }
+      else {
+        setEmailError("Enter a valid email address");
       }
     }
   };
@@ -55,6 +61,7 @@ function Register() {
           Sign in
         </Typography>
         <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
+          {emailError && <Alert severity="error">{emailError}</Alert>}
           <TextField
             margin="normal"
             required
