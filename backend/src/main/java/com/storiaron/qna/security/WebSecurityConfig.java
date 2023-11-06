@@ -34,9 +34,8 @@ public class WebSecurityConfig {
                         .requestMatchers(HttpMethod.POST, "/api/user/register").permitAll()
                         .requestMatchers(HttpMethod.PUT, "/api/content/post/newest").permitAll()
                         .requestMatchers(HttpMethod.PUT, "/api/content/comment/newest").permitAll()
-                        //for testing
-                        .requestMatchers(HttpMethod.POST, "/api/content/post").permitAll()
-                        .requestMatchers(HttpMethod.POST, "/api/content/comment").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/api/content/post").hasAnyRole("User", "Admin")
+                        .requestMatchers(HttpMethod.POST, "/api/content/comment").hasAnyRole("User", "Admin")
                         .anyRequest()
                         .authenticated()
                 )

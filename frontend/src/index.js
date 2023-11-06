@@ -11,6 +11,7 @@ import MainPage from "./components/MainPage";
 import Post from "./components/Post";
 import { ThemeProvider } from "@emotion/react";
 import { createTheme } from "@mui/material/styles";
+import PostCreator from "./components/PostCreator";
 const root = ReactDOM.createRoot(document.getElementById("root"));
 const theme = createTheme();
 const router = createBrowserRouter([
@@ -33,6 +34,10 @@ const router = createBrowserRouter([
       {
         path: "/post/:id",
         element: <Post />
+      },
+      {
+        path: "/new/post",
+        element: <PostCreator />
       }
     ],
   },
