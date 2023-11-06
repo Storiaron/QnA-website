@@ -1,10 +1,10 @@
 import { useParams, Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { Box, Typography, useMediaQuery, } from "@mui/material";
+import timeDifferenceCalculator from "../utils/TimeDifferenceCalculator";
 function Post() {
   const { id } = useParams();
   const [postData, setPostData] = useState(null);
-  const [timeDiff, setTimeDiff] = useState("now");
   const isMobile = useMediaQuery((theme) => theme.breakpoints.down("sm"));
   console.log(postData);
   const fetchData = async () => {
@@ -33,7 +33,7 @@ function Post() {
       <Typography variant="h6" component="div" style={{ fontSize: '12px' }}>
         {"posted by "}
         <Link to={`/user/${postData.username}`}>{postData.username}</Link>
-        {` ${timeDiff}`}
+        {` ${timeDifferenceCalculator(postData.timeOfWriting)}`}
       </Typography>
       <Typography variant="body1" sx={{ mt: 2 }}>
         {postData.body}

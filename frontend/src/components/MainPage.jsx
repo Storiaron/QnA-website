@@ -66,6 +66,7 @@ function MainPage() {
           title={post.title}
           body={post.body}
           id={post.id}
+          timeOfWriting={post.timeOfWriting}
         />
       ))}
     </InfiniteScroll>
