@@ -2,6 +2,7 @@ package com.storiaron.qna.controller;
 
 import com.storiaron.qna.dto.CommentAutoLoadDTO;
 import com.storiaron.qna.dto.PostAutoLoadDTO;
+import com.storiaron.qna.dto.PostDTO;
 import com.storiaron.qna.dto.newdto.NewCommentDTO;
 import com.storiaron.qna.dto.newdto.NewPostDTO;
 import com.storiaron.qna.model.Comment;
@@ -22,7 +23,7 @@ public class ContentController {
         this.contentService = contentService;
     }
     @GetMapping("/post/{id}")
-    public Post getPost(@PathVariable Long id){
+    public PostDTO getPost(@PathVariable Long id){
         return contentService.getPost(id);
     }
     @PutMapping("/post/newest")

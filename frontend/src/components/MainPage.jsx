@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import InfiniteScroll from "react-infinite-scroll-component";
 import PostDisplay from "./PostDisplay";
+import { Typography } from "@mui/material";
 function MainPage() {
   //TODO isInDataSavingMode is set to false for now
   const [hasMore, setHasMore] = useState(true);
@@ -9,7 +10,6 @@ function MainPage() {
   );
   const [content, setContent] = useState([]);
   const fetchContent = async () => {
-    console.log(dateOfLastLoadedContent)
     const response = await fetch("/api/content/post/newest", {
       method: "PUT",
       headers: {
@@ -33,7 +33,11 @@ function MainPage() {
 
         return oldest;
       }, newContent[0]);
-      setDateOfLastLoadedContent(oldestDate.timeOfWriting);
+      if (oldestDate) {
+        setDateOfLastLoadedContent(oldestDate.timeOfWriting);
+      } else {
+        setHasMore(false);
+      }
     }
   };
   useEffect(() => {
@@ -45,10 +49,24 @@ function MainPage() {
       next={fetchContent}
       hasMore={hasMore}
       loader={<p>Loading...</p>}
-      endMessage={<p>You have seen everything.</p>}
+      endMessage={
+        <Typography
+          sx={{ display: "table", margin: "auto", alignItems: "center" }}
+          component="span"
+          variant="body2"
+          color="text.secondary"
+        >
+          You have seen everything...
+        </Typography>
+      }
     >
       {content.map((post) => (
-        <PostDisplay key={post.id} title={post.title} body={post.body} id={post.id}/>
+        <PostDisplay
+          key={post.id}
+          title={post.title}
+          body={post.body}
+          id={post.id}
+        />
       ))}
     </InfiniteScroll>
   );
