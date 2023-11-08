@@ -10,5 +10,5 @@ import lombok.Setter;
 public class NewCommentDTO {
     private String body;
     private String username;
-    private Long idOfParentPost;
+    private Long parentPostId;
 }

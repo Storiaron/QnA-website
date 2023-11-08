@@ -1,6 +1,7 @@
 package com.storiaron.qna.service;
 
 import com.storiaron.qna.dto.CommentAutoLoadDTO;
+import com.storiaron.qna.dto.CommentDTO;
 import com.storiaron.qna.dto.PostAutoLoadDTO;
 import com.storiaron.qna.dto.PostDTO;
 import com.storiaron.qna.dto.newdto.NewCommentDTO;
@@ -16,6 +17,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -42,15 +44,31 @@ public class ContentService {
                     postAutoLoadDTO.getStartingFrom());
         }
     }
-    public List<Comment> getNewestComments(CommentAutoLoadDTO commentAutoLoadDTO){
+    public List<CommentDTO> getNewestComments(CommentAutoLoadDTO commentAutoLoadDTO){
         if(commentAutoLoadDTO.isInDataSavingMode()){
-            return commentRepository.findTop5ByParentPostIdAndTimeOfWritingBeforeOrderByTimeOfWritingDesc(
+            List<Comment> comments = commentRepository.findTop5ByParentPostIdAndTimeOfWritingBeforeOrderByTimeOfWritingDesc(
                     commentAutoLoadDTO.getParentPostId(), commentAutoLoadDTO.getStartingFrom());
+            return commentCommentDTOMapper(comments);
         }
         else {
-            return commentRepository.findTop20ByParentPostIdAndTimeOfWritingBeforeOrderByTimeOfWritingDesc(
+            List<Comment> comments = commentRepository.findTop20ByParentPostIdAndTimeOfWritingBeforeOrderByTimeOfWritingDesc(
                     commentAutoLoadDTO.getParentPostId(), commentAutoLoadDTO.getStartingFrom());
+            return commentCommentDTOMapper(comments);
         }
+    }
+    private List<CommentDTO> commentCommentDTOMapper(List<Comment> comments){
+        List<CommentDTO> commentDTOs = new ArrayList<>();
+        for(Comment comment : comments){
+            CommentDTO commentDTO = new CommentDTO();
+            commentDTO.setBody(comment.getBody());
+            commentDTO.setId(comment.getId());
+            commentDTO.setUpVotes(comment.getUpVotes());
+            commentDTO.setDownVotes(comment.getDownVotes());
+            QnAUser qnAUser = qnAUserRepository.findByUsername(comment.getPostedBy().getUsername());
+            commentDTO.setUsername(qnAUser.getUsername());
+            commentDTOs.add(commentDTO);
+        }
+        return commentDTOs;
     }
     @Transactional
     public Long addPost(NewPostDTO newPostDTO){
@@ -70,7 +88,7 @@ public class ContentService {
     }
     @Transactional
     public void addComment(NewCommentDTO newCommentDTO){
-        Post post = postRepository.getReferenceById(newCommentDTO.getIdOfParentPost());
+        Post post = postRepository.getReferenceById(newCommentDTO.getParentPostId());
         QnAUser qnAUser = qnAUserRepository.findByUsername(newCommentDTO.getUsername());
         if(post != null && qnAUser != null){
             Comment comment = new Comment();
@@ -94,6 +112,9 @@ public class ContentService {
             postDTO.setTitle(post.getTitle());
             postDTO.setUsername(post.getQnAUser().getUsername());
             postDTO.setTimeOfWriting(post.getTimeOfWriting());
+            int commentCount = commentRepository.countByParentPost(post);
+            postDTO.setCommentCount(commentCount);
+            postDTO.setId(id);
             return postDTO;
         }
         return null;

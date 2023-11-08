@@ -13,4 +13,13 @@ public class CommentAutoLoadDTO {
     private LocalDateTime startingFrom;
     private boolean isInDataSavingMode;
     private Long parentPostId;
+
+    @Override
+    public String toString() {
+        return "CommentAutoLoadDTO{" +
+                "startingFrom=" + startingFrom +
+                ", isInDataSavingMode=" + isInDataSavingMode +
+                ", parentPostId=" + parentPostId +
+                '}';
+    }
 }

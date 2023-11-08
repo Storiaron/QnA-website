@@ -20,5 +20,6 @@ public class PostDTO {
     private LocalDateTime timeOfWriting;
     private int upVotes;
     private int downVotes;
+    private int commentCount;
     private String username;
 }
