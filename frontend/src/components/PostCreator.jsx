@@ -1,11 +1,13 @@
 import { TextField, Button, Box } from "@mui/material";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 function PostCreator() {
   const [isDisabled, setIsDisabled] = useState(false);
+  const navigate = useNavigate();
   const handleSubmit = async (event) => {
     event.preventDefault();
     const postData = new FormData(event.currentTarget);
-    fetch("/api/content/post", {
+    const response = await fetch("/api/content/post", {
       method: "POST",
       headers: {
         Authorization: localStorage.getItem("token"),
@@ -17,6 +19,10 @@ function PostCreator() {
         username: localStorage.getItem("username"),
       }),
     });
+    if(response.ok){
+      const responseData = await response.json();
+      navigate(`/post/${responseData}`)
+    }
   };
   return (
     <div>

@@ -5,9 +5,8 @@ import { Typography } from "@mui/material";
 function MainPage() {
   //TODO isInDataSavingMode is set to false for now
   const [hasMore, setHasMore] = useState(true);
-  const [dateOfLastLoadedContent, setDateOfLastLoadedContent] = useState(
-    new Date()
-  );
+  // dateOfLastLoadedContent has to be a later date than any content we want to load. 
+  const [dateOfLastLoadedContent, setDateOfLastLoadedContent] = useState(new Date("2100-01-01"));
   const [content, setContent] = useState([]);
   const fetchContent = async () => {
     const response = await fetch("/api/content/post/newest", {
@@ -23,21 +22,7 @@ function MainPage() {
     if (response.ok) {
       const newContent = await response.json();
       setContent([...content, ...newContent]);
-      const oldestDate = newContent.reduce((oldest, current) => {
-        const oldestDateObject = new Date(oldest.timeOfWriting);
-        const currentDateObject = new Date(current.timeOfWriting);
-
-        if (currentDateObject < oldestDateObject) {
-          return current;
-        }
-
-        return oldest;
-      }, newContent[0]);
-      if (oldestDate) {
-        setDateOfLastLoadedContent(oldestDate.timeOfWriting);
-      } else {
-        setHasMore(false);
-      }
+      setDateOfLastLoadedContent(newContent.pop());
     }
   };
   useEffect(() => {
