@@ -53,7 +53,7 @@ function PostCreator() {
           type="submit"
           disabled={isDisabled}
         >
-          Post
+          Submit
         </Button>
       </Box>
     </div>
