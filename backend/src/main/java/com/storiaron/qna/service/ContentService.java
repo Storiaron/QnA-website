@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
@@ -31,7 +32,7 @@ public class ContentService {
         this.qnAUserRepository = qnAUserRepository;
     }
 
-    public Set<Post> getNewestPosts(PostAutoLoadDTO postAutoLoadDTO){
+    public List<Post> getNewestPosts(PostAutoLoadDTO postAutoLoadDTO){
         if(postAutoLoadDTO.isInDataSavingMode()){
             return postRepository.findTop5ByTimeOfWritingBeforeOrderByTimeOfWritingDesc(
                     postAutoLoadDTO.getStartingFrom());
@@ -41,7 +42,7 @@ public class ContentService {
                     postAutoLoadDTO.getStartingFrom());
         }
     }
-    public Set<Comment> getNewestComments(CommentAutoLoadDTO commentAutoLoadDTO){
+    public List<Comment> getNewestComments(CommentAutoLoadDTO commentAutoLoadDTO){
         if(commentAutoLoadDTO.isInDataSavingMode()){
             return commentRepository.findTop5ByParentPostIdAndTimeOfWritingBeforeOrderByTimeOfWritingDesc(
                     commentAutoLoadDTO.getParentPostId(), commentAutoLoadDTO.getStartingFrom());
@@ -52,7 +53,7 @@ public class ContentService {
         }
     }
     @Transactional
-    public void addPost(NewPostDTO newPostDTO){
+    public Long addPost(NewPostDTO newPostDTO){
         QnAUser qnAUser = qnAUserRepository.findByUsername(newPostDTO.getUsername());
         if(qnAUser != null){
             Post post = new Post();
@@ -60,10 +61,12 @@ public class ContentService {
             post.setTitle(newPostDTO.getTitle());
             post.setQnAUser(qnAUser);
             post.setTimeOfWriting(LocalDateTime.now());
-            postRepository.save(post);
+            Post newPost = postRepository.save(post);
             qnAUser.getPosts().add(post);
             qnAUserRepository.save(qnAUser);
+            return newPost.getId();
         }
+        return (long)0;
     }
     @Transactional
     public void addComment(NewCommentDTO newCommentDTO){
