@@ -11,6 +11,7 @@ import com.storiaron.qna.service.ContentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Set;
 
 @RestController
@@ -27,15 +28,16 @@ public class ContentController {
         return contentService.getPost(id);
     }
     @PutMapping("/post/newest")
-    public Set<Post> getNewestPosts(@RequestBody PostAutoLoadDTO postAutoLoadDTO){
+    public List<Post> getNewestPosts(@RequestBody PostAutoLoadDTO postAutoLoadDTO){
+        System.out.println(postAutoLoadDTO);
         return contentService.getNewestPosts(postAutoLoadDTO);
     }
     @PostMapping("/post")
-    public void addPost(@RequestBody NewPostDTO newPostDTO){
-        contentService.addPost(newPostDTO);
+    public Long addPost(@RequestBody NewPostDTO newPostDTO){
+        return contentService.addPost(newPostDTO);
     }
     @PutMapping("/comment/newest")
-    public Set<Comment> getNewestComments(@RequestBody CommentAutoLoadDTO commentAutoLoadDTO){
+    public List<Comment> getNewestComments(@RequestBody CommentAutoLoadDTO commentAutoLoadDTO){
         return contentService.getNewestComments(commentAutoLoadDTO);
     }
     @PostMapping("/comment")
