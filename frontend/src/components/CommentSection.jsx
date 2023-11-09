@@ -10,6 +10,7 @@ import {
   Button,
   TextField,
 } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 function CommentSection({ parentPostId }) {
   //TODO isInDataSavingMode is set to false for now
   const [hasMore, setHasMore] = useState(true);
@@ -19,6 +20,7 @@ function CommentSection({ parentPostId }) {
   );
   const [comments, setComments] = useState([]);
   const [isCommentTooLong, setIsCommentTooLong] = useState(false);
+  const navigate = useNavigate();
   const fetchContent = async () => {
     const response = await fetch("/api/content/comment/newest", {
       method: "PUT",
@@ -64,7 +66,7 @@ function CommentSection({ parentPostId }) {
   }, []);
   return (
     <>
-      <Box
+     {localStorage.getItem("username")? <Box
         component="form"
         onSubmit={handleSubmit}
         sx={{
@@ -89,7 +91,19 @@ function CommentSection({ parentPostId }) {
         >
           Submit
         </Button>
-      </Box>
+      </Box> : <Typography
+            sx={{ display: "table", margin: "auto", alignItems: "center", "&:hover": {
+                color: "blue",
+                cursor: "pointer",
+                textDecoration: "underline",
+              }}}
+            component="span"
+            variant="body2"
+            color="text.secondary"
+            onClick={() => navigate("/login")}   
+          >
+            Login to write a comment
+          </Typography>}
       <InfiniteScroll
         dataLength={comments.length}
         next={fetchContent}
