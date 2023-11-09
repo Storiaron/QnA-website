@@ -93,20 +93,20 @@ function Login() {
           </Button>
           <Grid container>
             <Grid item xs>
-              <Link href="#" variant="body2">
+              <Link variant="body2">
                 Forgot my password
               </Link>
             </Grid>
             <Grid item xs>
-              <Link href="#" variant="body2">
-                {"I don't have an account"}
+              <Link onClick={() => navigate("/register")} variant="body2">
+                I don't have an account
               </Link>
             </Grid>
           </Grid>
         </Box>
       </Box>
     </Container>
-  )
+  );
 }
 
 export default Login;

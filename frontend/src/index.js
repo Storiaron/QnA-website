@@ -12,6 +12,7 @@ import Post from "./components/Post";
 import { ThemeProvider } from "@emotion/react";
 import { createTheme } from "@mui/material/styles";
 import PostCreator from "./components/PostCreator";
+import Profile from "./components/Profile";
 const root = ReactDOM.createRoot(document.getElementById("root"));
 const theme = createTheme();
 const router = createBrowserRouter([
@@ -32,13 +33,17 @@ const router = createBrowserRouter([
         element: <Register />,
       },
       {
+        path: "/user/:name",
+        element: <Profile />,
+      },
+      {
         path: "/post/:id",
-        element: <Post />
+        element: <Post />,
       },
       {
         path: "/new/post",
-        element: <PostCreator />
-      }
+        element: <PostCreator />,
+      },
     ],
   },
 ]);

@@ -4,6 +4,7 @@ import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import IconButton from "@mui/material/IconButton";
 import MenuIcon from "@mui/icons-material/Menu";
+import HomeIcon from '@mui/icons-material/Home';
 import AccountCircle from "@mui/icons-material/AccountCircle";
 import Switch from "@mui/material/Switch";
 import FormControlLabel from "@mui/material/FormControlLabel";
@@ -25,9 +26,12 @@ function MenuAppBar() {
   const [menuAnchor, setMenuAnchor] = useState(null);
   let loggedInUser = localStorage.getItem("username");
   const navigate = useNavigate();
-  const handleMenu = (event) => {
+  const handleOpen = (event) => {
     setAnchorEl(event.currentTarget);
   };
+  const handleMenuOpen = (event) => {
+    setMenuAnchor(event.currentTarget);
+  }
   const handleLogoutSuccessOpen = () => {
     setLogoutSuccessOpen(true);
   };
@@ -53,38 +57,23 @@ function MenuAppBar() {
   const handleLogin = () => {
     navigate("/login");
   }
-
+  const handleNewPost = () => {
+    navigate("/new/post")
+  }
   return (
     <div>
       <Box sx={{ flexGrow: 1 }}>
         <AppBar position="static">
           <Toolbar>
-            <IconButton
-              size="large"
-              edge="start"
-              color="inherit"
-              aria-label="menu"
-              sx={{ mr: 2 }}
-            >
-              <MenuIcon />
-              <Menu
-               id="menu-appbar"
-               anchorEl={menuAnchor}
-               anchorOrigin={{
-                 vertical: "top",
-                 horizontal: "left",
-               }}
-               keepMounted
-               transformOrigin={{
-                 vertical: "top",
-                 horizontal: "left",
-               }}
-               open={Boolean(menuAnchor)}
-               onClose={handleMenuClose}>
-                <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
-                <MenuItem onClick={handleMenuClose}>Log out</MenuItem>
-              </Menu>
-            </IconButton>
+          <IconButton
+      color="inherit"
+      aria-label="home"
+      onClick={() => {
+        navigate("/")
+      }}
+    >
+      <HomeIcon />
+    </IconButton>
             <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
               
             </Typography>
@@ -94,7 +83,7 @@ function MenuAppBar() {
                 aria-label="account of current user"
                 aria-controls="menu-appbar"
                 aria-haspopup="true"
-                onClick={handleMenu}
+                onClick={handleOpen}
                 color="inherit"
               >
                 <Avatar>{localStorage.getItem("username") ? localStorage.getItem("username")[0] : "G"}</Avatar>
@@ -115,6 +104,7 @@ function MenuAppBar() {
                 onClose={handleClose}
               >
                 <MenuItem onClick={handleClose}>Profile</MenuItem>
+                <MenuItem onClick={handleNewPost}>New post</MenuItem>
                 <MenuItem onClick={handleLog}>{localStorage.getItem("username") ? "Log out" : "Login"}</MenuItem>
               </Menu>
             </div>

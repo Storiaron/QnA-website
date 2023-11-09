@@ -1,6 +1,7 @@
 package com.storiaron.qna.controller;
 
 import com.storiaron.qna.dto.CommentAutoLoadDTO;
+import com.storiaron.qna.dto.CommentDTO;
 import com.storiaron.qna.dto.PostAutoLoadDTO;
 import com.storiaron.qna.dto.PostDTO;
 import com.storiaron.qna.dto.newdto.NewCommentDTO;
@@ -28,8 +29,7 @@ public class ContentController {
         return contentService.getPost(id);
     }
     @PutMapping("/post/newest")
-    public List<Post> getNewestPosts(@RequestBody PostAutoLoadDTO postAutoLoadDTO){
-        System.out.println(postAutoLoadDTO);
+    public List<PostDTO> getNewestPosts(@RequestBody PostAutoLoadDTO postAutoLoadDTO){
         return contentService.getNewestPosts(postAutoLoadDTO);
     }
     @PostMapping("/post")
@@ -37,7 +37,7 @@ public class ContentController {
         return contentService.addPost(newPostDTO);
     }
     @PutMapping("/comment/newest")
-    public List<Comment> getNewestComments(@RequestBody CommentAutoLoadDTO commentAutoLoadDTO){
+    public List<CommentDTO> getNewestComments(@RequestBody CommentAutoLoadDTO commentAutoLoadDTO){
         return contentService.getNewestComments(commentAutoLoadDTO);
     }
     @PostMapping("/comment")

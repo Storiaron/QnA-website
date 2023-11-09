@@ -27,7 +27,7 @@ function Register() {
     if (validatePasswordFields(data) !== "good") {
       setPasswordError(validatePasswordFields(data));
     } else {
-      if (isEmailValid(data.get("email"))) {
+      if (isEmailValid(data.email)) {
         delete data.passwordRepeated;
         const response = await fetch("/api/user/register", {
           method: "POST",
@@ -108,20 +108,8 @@ function Register() {
             variant="contained"
             sx={{ mt: 3, mb: 2 }}
           >
-            Sign In
+            Sign Up
           </Button>
-          <Grid container>
-            <Grid item xs>
-              <Link href="#" variant="body2">
-                Forgot my password
-              </Link>
-            </Grid>
-            <Grid item xs>
-              <Link href="#" variant="body2">
-                {"I don't have an account"}
-              </Link>
-            </Grid>
-          </Grid>
         </Box>
       </Box>
     </Container>

@@ -11,4 +11,6 @@ public interface PostRepository extends JpaRepository<Post, Long> {
 
     List<Post> findTop20ByTimeOfWritingBeforeOrderByTimeOfWritingDesc(LocalDateTime queryStart);
     List<Post> findTop5ByTimeOfWritingBeforeOrderByTimeOfWritingDesc(LocalDateTime queryStart);
+
+    Post findTopByOrderByTimeOfWritingAsc();
 }

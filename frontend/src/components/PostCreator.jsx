@@ -24,7 +24,7 @@ function PostCreator() {
       navigate(`/post/${responseData}`)
     }
   };
-  return (
+  return localStorage.getItem("username") ? (
     <div>
       <Box component="form" onSubmit={handleSubmit}>
         <TextField
@@ -46,6 +46,9 @@ function PostCreator() {
           rows={4}
           variant="outlined"
           fullWidth
+          InputProps={{
+            maxLength: 1000,
+          }}
         />
         <Button
           variant="contained"
@@ -53,10 +56,10 @@ function PostCreator() {
           type="submit"
           disabled={isDisabled}
         >
-          Post
+          Submit
         </Button>
       </Box>
     </div>
-  );
+  ) : <div>Login to continue</div>;
 }
 export default PostCreator;
