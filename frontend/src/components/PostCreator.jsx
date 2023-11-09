@@ -46,6 +46,9 @@ function PostCreator() {
           rows={4}
           variant="outlined"
           fullWidth
+          InputProps={{
+            maxLength: 1000,
+          }}
         />
         <Button
           variant="contained"

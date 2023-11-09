@@ -10,7 +10,7 @@ import {
   Button,
   TextField,
 } from "@mui/material";
-function CommentSection({parentPostId}) {
+function CommentSection({ parentPostId }) {
   //TODO isInDataSavingMode is set to false for now
   const [hasMore, setHasMore] = useState(true);
   // dateOfLastLoadedContent has to be a later date than any content we want to load.
@@ -28,16 +28,18 @@ function CommentSection({parentPostId}) {
       body: JSON.stringify({
         startingFrom: dateOfLastLoadedComment,
         isInDataSavingMode: false,
-        parentPostId: parentPostId
+        parentPostId: parentPostId,
       }),
     });
     if (response.ok) {
       const newContent = await response.json();
       const latestComment = newContent[newContent.length - 1];
       setComments([...comments, ...newContent]);
-      setDateOfLastLoadedComment(latestComment.timeOfWriting);
-      if(latestComment.lastComment){
-        setHasMore(false);
+      if (latestComment) {
+        setDateOfLastLoadedComment(latestComment.timeOfWriting);
+        if (latestComment.lastComment) {
+          setHasMore(false);
+        }
       }
     }
   };
@@ -53,7 +55,7 @@ function CommentSection({parentPostId}) {
       body: JSON.stringify({
         body: commentData.get("body"),
         username: localStorage.getItem("username"),
-        parentPostId: parentPostId
+        parentPostId: parentPostId,
       }),
     });
   };
@@ -62,10 +64,14 @@ function CommentSection({parentPostId}) {
   }, []);
   return (
     <>
-      <Box component="form" onSubmit={handleSubmit} sx={{
-        margin: "auto",
-        boxShadow: "4px 4px lightblue",
-      }}>
+      <Box
+        component="form"
+        onSubmit={handleSubmit}
+        sx={{
+          margin: "auto",
+          boxShadow: "4px 4px lightblue",
+        }}
+      >
         <TextField
           id="post-content"
           label="Write your comment"
