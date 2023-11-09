@@ -89,6 +89,7 @@ public class ContentService {
             commentDTO.setDownVotes(comment.getDownVotes());
             QnAUser qnAUser = qnAUserRepository.findByUsername(comment.getPostedBy().getUsername());
             commentDTO.setUsername(qnAUser.getUsername());
+            commentDTO.setTimeOfWriting(comment.getTimeOfWriting());
             if(comment.equals(oldestComment)){
                 commentDTO.setLastComment(true);
             }

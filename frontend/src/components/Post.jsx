@@ -24,6 +24,7 @@ function Post() {
         margin: "auto",
         boxShadow: "4px 4px lightblue",
         width: isMobile ? "100%" : "70%",
+        overflowWrap: "break-word"
       }}
     >
       <Typography variant="h3" component="div">
