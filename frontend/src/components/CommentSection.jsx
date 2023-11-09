@@ -11,6 +11,7 @@ import {
   TextField,
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
+import timeDifferenceCalculator from "../utils/TimeDifferenceCalculator";
 function CommentSection({ parentPostId }) {
   //TODO isInDataSavingMode is set to false for now
   const [hasMore, setHasMore] = useState(true);
@@ -66,44 +67,53 @@ function CommentSection({ parentPostId }) {
   }, []);
   return (
     <>
-     {localStorage.getItem("username")? <Box
-        component="form"
-        onSubmit={handleSubmit}
-        sx={{
-          margin: "auto",
-          boxShadow: "4px 4px lightblue",
-        }}
-      >
-        <TextField
-          id="post-content"
-          label="Write your comment"
-          name="body"
-          multiline
-          rows={4}
-          variant="outlined"
-          fullWidth
-        />
-        <Button
-          variant="contained"
-          color="primary"
-          type="submit"
-          disabled={isCommentTooLong}
+      {localStorage.getItem("username") ? (
+        <Box
+          component="form"
+          onSubmit={handleSubmit}
+          sx={{
+            margin: "auto",
+            boxShadow: "4px 4px lightblue",
+          }}
         >
-          Submit
-        </Button>
-      </Box> : <Typography
-            sx={{ display: "table", margin: "auto", alignItems: "center", "&:hover": {
-                color: "blue",
-                cursor: "pointer",
-                textDecoration: "underline",
-              }}}
-            component="span"
-            variant="body2"
-            color="text.secondary"
-            onClick={() => navigate("/login")}   
+          <TextField
+            id="post-content"
+            label="Write your comment"
+            name="body"
+            multiline
+            rows={4}
+            variant="outlined"
+            fullWidth
+          />
+          <Button
+            variant="contained"
+            color="primary"
+            type="submit"
+            disabled={isCommentTooLong}
           >
-            Login to write a comment
-          </Typography>}
+            Submit
+          </Button>
+        </Box>
+      ) : (
+        <Typography
+          sx={{
+            display: "table",
+            margin: "auto",
+            alignItems: "center",
+            "&:hover": {
+              color: "blue",
+              cursor: "pointer",
+              textDecoration: "underline",
+            },
+          }}
+          component="span"
+          variant="body2"
+          color="text.secondary"
+          onClick={() => navigate("/login")}
+        >
+          Login to write a comment
+        </Typography>
+      )}
       <InfiniteScroll
         dataLength={comments.length}
         next={fetchContent}
@@ -125,8 +135,16 @@ function CommentSection({ parentPostId }) {
             <div key={comment.id}>
               <ListItem>
                 <ListItemText
-                  primary={comment.username}
-                  secondary={comment.body}
+                  primary={
+                    <Typography onClick={()=> navigate(`/user/${comment.username}`)} variant="subtitle2" color="textSecondary">
+                      {comment.username +
+                        " " +
+                        timeDifferenceCalculator(comment.timeOfWriting)}
+                    </Typography>
+                  }
+                  secondary={
+                    <Typography variant="body2">{comment.body}</Typography>
+                  }
                 />
               </ListItem>
               {index < comments.length - 1 && <Divider />}
