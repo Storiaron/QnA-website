@@ -21,8 +21,13 @@ function MainPage() {
     });
     if (response.ok) {
       const newContent = await response.json();
+      const latestPost = newContent[newContent.length - 1];
       setContent([...content, ...newContent]);
-      setDateOfLastLoadedContent(newContent.pop());
+      setDateOfLastLoadedContent(latestPost.timeOfWriting);
+      console.log(newContent[newContent.length - 1]);
+      if(latestPost.lastPost){
+        setHasMore(false);
+      }
     }
   };
   useEffect(() => {

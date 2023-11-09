@@ -34,29 +34,52 @@ public class ContentService {
         this.qnAUserRepository = qnAUserRepository;
     }
 
-    public List<Post> getNewestPosts(PostAutoLoadDTO postAutoLoadDTO){
+    public List<PostDTO> getNewestPosts(PostAutoLoadDTO postAutoLoadDTO){
+        Post oldestPost = postRepository.findTopByOrderByTimeOfWritingAsc();
+        List<Post> posts;
         if(postAutoLoadDTO.isInDataSavingMode()){
-            return postRepository.findTop5ByTimeOfWritingBeforeOrderByTimeOfWritingDesc(
+            posts = postRepository.findTop5ByTimeOfWritingBeforeOrderByTimeOfWritingDesc(
                     postAutoLoadDTO.getStartingFrom());
         }
         else {
-            return postRepository.findTop20ByTimeOfWritingBeforeOrderByTimeOfWritingDesc(
+            posts = postRepository.findTop20ByTimeOfWritingBeforeOrderByTimeOfWritingDesc(
                     postAutoLoadDTO.getStartingFrom());
         }
+        return postPostDTOMapper(posts, oldestPost);
+    }
+    private List<PostDTO> postPostDTOMapper(List<Post> posts, Post oldestPost){
+        List<PostDTO> postDTOS = new ArrayList<>(posts.size());
+        for(Post post : posts){
+            PostDTO postDTO = new PostDTO();
+            postDTO.setId(post.getId());
+            postDTO.setUpVotes(post.getUpVotes());
+            postDTO.setDownVotes(post.getDownVotes());
+            postDTO.setBody(post.getBody());
+            postDTO.setTitle(post.getTitle());
+            postDTO.setTimeOfWriting(post.getTimeOfWriting());
+            postDTO.setUsername(post.getQnAUser().getUsername());
+            if(post.equals(oldestPost)){
+                postDTO.setLastPost(true);
+            }
+            postDTOS.add(postDTO);
+        }
+
+        return postDTOS;
     }
     public List<CommentDTO> getNewestComments(CommentAutoLoadDTO commentAutoLoadDTO){
+        List<Comment> comments;
+        Comment oldestComment = commentRepository.findTopByParentPostIdOrderByTimeOfWritingAsc(commentAutoLoadDTO.getParentPostId());
         if(commentAutoLoadDTO.isInDataSavingMode()){
-            List<Comment> comments = commentRepository.findTop5ByParentPostIdAndTimeOfWritingBeforeOrderByTimeOfWritingDesc(
+            comments = commentRepository.findTop5ByParentPostIdAndTimeOfWritingBeforeOrderByTimeOfWritingDesc(
                     commentAutoLoadDTO.getParentPostId(), commentAutoLoadDTO.getStartingFrom());
-            return commentCommentDTOMapper(comments);
         }
         else {
-            List<Comment> comments = commentRepository.findTop20ByParentPostIdAndTimeOfWritingBeforeOrderByTimeOfWritingDesc(
+           comments = commentRepository.findTop20ByParentPostIdAndTimeOfWritingBeforeOrderByTimeOfWritingDesc(
                     commentAutoLoadDTO.getParentPostId(), commentAutoLoadDTO.getStartingFrom());
-            return commentCommentDTOMapper(comments);
         }
+        return commentCommentDTOMapper(comments, oldestComment);
     }
-    private List<CommentDTO> commentCommentDTOMapper(List<Comment> comments){
+    private List<CommentDTO> commentCommentDTOMapper(List<Comment> comments, Comment oldestComment){
         List<CommentDTO> commentDTOs = new ArrayList<>();
         for(Comment comment : comments){
             CommentDTO commentDTO = new CommentDTO();
@@ -66,6 +89,9 @@ public class ContentService {
             commentDTO.setDownVotes(comment.getDownVotes());
             QnAUser qnAUser = qnAUserRepository.findByUsername(comment.getPostedBy().getUsername());
             commentDTO.setUsername(qnAUser.getUsername());
+            if(comment.equals(oldestComment)){
+                commentDTO.setLastComment(true);
+            }
             commentDTOs.add(commentDTO);
         }
         return commentDTOs;

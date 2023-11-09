@@ -16,4 +16,5 @@ public class CommentDTO {
     private int downVotes;
     private LocalDateTime timeOfWriting;
     private String username;
+    private boolean isLastComment;
 }

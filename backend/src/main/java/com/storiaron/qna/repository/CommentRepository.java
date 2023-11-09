@@ -12,4 +12,6 @@ public interface CommentRepository extends JpaRepository<Comment, Long> {
     List<Comment> findTop20ByParentPostIdAndTimeOfWritingBeforeOrderByTimeOfWritingDesc(Long parentPostId, LocalDateTime queryStart);
     List<Comment> findTop5ByParentPostIdAndTimeOfWritingBeforeOrderByTimeOfWritingDesc(Long parentPostId, LocalDateTime queryStart);
     int countByParentPost(Post post);
+    Comment findTopByParentPostIdOrderByTimeOfWritingAsc(Long parentPostId);
+
 }

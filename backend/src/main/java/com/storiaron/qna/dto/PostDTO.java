@@ -22,4 +22,5 @@ public class PostDTO {
     private int downVotes;
     private int commentCount;
     private String username;
+    private boolean isLastPost;
 }

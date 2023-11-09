@@ -33,8 +33,12 @@ function CommentSection({parentPostId}) {
     });
     if (response.ok) {
       const newContent = await response.json();
+      const latestComment = newContent[newContent.length - 1];
       setComments([...comments, ...newContent]);
-      setDateOfLastLoadedComment(newContent.pop());
+      setDateOfLastLoadedComment(latestComment.timeOfWriting);
+      if(latestComment.lastComment){
+        setHasMore(false);
+      }
     }
   };
   const handleSubmit = async (event) => {

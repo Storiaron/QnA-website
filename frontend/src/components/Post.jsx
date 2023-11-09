@@ -41,7 +41,7 @@ function Post() {
       <CommentSection parentPostId={postData.id}/>
     </Box>
   ) : (
-    <div>Loading...</div>
+    <></>
   );
 }
 export default Post;
