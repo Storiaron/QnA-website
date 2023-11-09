@@ -24,7 +24,7 @@ function PostCreator() {
       navigate(`/post/${responseData}`)
     }
   };
-  return (
+  return localStorage.getItem("username") ? (
     <div>
       <Box component="form" onSubmit={handleSubmit}>
         <TextField
@@ -57,6 +57,6 @@ function PostCreator() {
         </Button>
       </Box>
     </div>
-  );
+  ) : <div>Login to continue</div>;
 }
 export default PostCreator;

@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import InfiniteScroll from "react-infinite-scroll-component";
 import PostDisplay from "./PostDisplay";
 import { Typography } from "@mui/material";
+import AdvertismentPanel from "./AdvertismentPanel";
 function MainPage() {
   //TODO isInDataSavingMode is set to false for now
   const [hasMore, setHasMore] = useState(true);
@@ -34,6 +35,7 @@ function MainPage() {
     fetchContent();
   }, []);
   return (
+    <>
     <InfiniteScroll
       dataLength={content.length}
       next={fetchContent}
@@ -60,6 +62,8 @@ function MainPage() {
         />
       ))}
     </InfiniteScroll>
+    <AdvertismentPanel />
+    </>
   );
 }
 export default MainPage;
