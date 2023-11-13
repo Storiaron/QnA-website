@@ -27,8 +27,8 @@ public class TokenUtil {
 
             DecodedJWT jwt = verifier.verify(splitToken);
 
-            String employeeName = jwt.getSubject();
-            return userDetailsService.loadUserByUsername(employeeName);
+            String qnaUsername = jwt.getSubject();
+            return userDetailsService.loadUserByUsername(qnaUsername);
 
         } catch (Exception e) {
             return null;
