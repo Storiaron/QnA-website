@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
 import InfiniteScroll from "react-infinite-scroll-component";
+import ThumbDownIcon from '@mui/icons-material/ThumbDown';
+import ThumbUpIcon from '@mui/icons-material/ThumbUp';
 import {
   Typography,
   List,
@@ -136,16 +138,24 @@ function CommentSection({ parentPostId }) {
               <ListItem>
                 <ListItemText
                   primary={
-                    <Typography onClick={()=> navigate(`/user/${comment.username}`)} variant="subtitle2" color="textSecondary">
+                    <Typography
+                      onClick={() => navigate(`/user/${comment.username}`)}
+                      variant="subtitle2"
+                      color="textSecondary"
+                    >
                       {comment.username +
                         " " +
-                        timeDifferenceCalculator(comment.timeOfWriting)}
+                        timeDifferenceCalculator(comment.timeOfWriting) +
+                        ", " + (comment.upvotes - comment.downvotes) +
+                        " points"}
                     </Typography>
                   }
                   secondary={
                     <Typography variant="body2">{comment.body}</Typography>
                   }
                 />
+                <ThumbUpIcon onClick={handleUpvote}/>
+                <ThumbDownIcon onClick={handleDownVote}/>
               </ListItem>
               {index < comments.length - 1 && <Divider />}
             </div>
