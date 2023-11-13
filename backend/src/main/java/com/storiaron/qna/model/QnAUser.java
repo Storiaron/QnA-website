@@ -27,4 +27,10 @@ public class QnAUser {
     private String password;
     @Enumerated(EnumType.STRING)
     private Role role;
+    @ManyToMany
+    @JsonManagedReference(value = "comment-upvoted-by")
+    private Set<Comment> upvotedComments;
+    @ManyToMany
+    @JsonManagedReference(value = "post-upvoted-by")
+    private Set<Post> upvotedPosts;
 }

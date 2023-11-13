@@ -8,6 +8,7 @@ import lombok.Setter;
 
 import java.time.LocalDateTime;
 import java.util.Objects;
+import java.util.Set;
 
 @Entity
 @Getter
@@ -27,6 +28,10 @@ public class Comment {
     @ManyToOne
     @JsonBackReference(value = "user-comment")
     private QnAUser postedBy;
+    @ManyToMany
+    @JsonBackReference(value = "comment-upvoted-by")
+    private Set<QnAUser> votedBy;
+
 
     @Override
     public boolean equals(Object o) {

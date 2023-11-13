@@ -64,6 +64,21 @@ function CommentSection({ parentPostId }) {
       }),
     });
   };
+  const handleVote = async(commentId, voteType) => {
+    console.log(voteType)
+    await fetch("/api/content/comment/vote", {
+      method: "PUT",
+      headers: {
+        Authorization: localStorage.getItem("token"),
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        id: commentId,
+        username: localStorage.getItem("username"),
+        upVote: voteType
+      })
+    })
+  }
   useEffect(() => {
     fetchContent();
   }, []);
@@ -146,7 +161,7 @@ function CommentSection({ parentPostId }) {
                       {comment.username +
                         " " +
                         timeDifferenceCalculator(comment.timeOfWriting) +
-                        ", " + (comment.upvotes - comment.downvotes) +
+                        ", " + (comment.upVotes - comment.downVotes) +
                         " points"}
                     </Typography>
                   }
@@ -154,8 +169,8 @@ function CommentSection({ parentPostId }) {
                     <Typography variant="body2">{comment.body}</Typography>
                   }
                 />
-                <ThumbUpIcon onClick={handleUpvote}/>
-                <ThumbDownIcon onClick={handleDownVote}/>
+                <ThumbUpIcon onClick={() => handleVote(comment.id, true)}/>
+                <ThumbDownIcon onClick={() => handleVote(comment.id, false)}/>
               </ListItem>
               {index < comments.length - 1 && <Divider />}
             </div>

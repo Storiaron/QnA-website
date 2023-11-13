@@ -1,9 +1,6 @@
 package com.storiaron.qna.controller;
 
-import com.storiaron.qna.dto.CommentAutoLoadDTO;
-import com.storiaron.qna.dto.CommentDTO;
-import com.storiaron.qna.dto.PostAutoLoadDTO;
-import com.storiaron.qna.dto.PostDTO;
+import com.storiaron.qna.dto.*;
 import com.storiaron.qna.dto.newdto.NewCommentDTO;
 import com.storiaron.qna.dto.newdto.NewPostDTO;
 import com.storiaron.qna.model.Comment;
@@ -43,5 +40,14 @@ public class ContentController {
     @PostMapping("/comment")
     public void addComment(@RequestBody NewCommentDTO newCommentDTO){
         contentService.addComment(newCommentDTO);
+    }
+    @PutMapping("comment/vote")
+    public void voteComment(@RequestBody VoteDTO voteDTO){
+        System.out.println(voteDTO);
+        contentService.voteComment(voteDTO);
+    }
+    @PutMapping("/post/vote")
+    public void votePost(@RequestBody VoteDTO voteDTO){
+        contentService.votePost(voteDTO);
     }
 }
