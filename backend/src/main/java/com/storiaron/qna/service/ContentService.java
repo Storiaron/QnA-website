@@ -142,7 +142,6 @@ public class ContentService {
         }
         return null;
     }
-    //TODO testing the feature, later set this to one vote per user
     @Transactional
     public void voteComment(VoteDTO voteDTO){
         Optional<Comment> commentOptional = commentRepository.findById(voteDTO.getId());
