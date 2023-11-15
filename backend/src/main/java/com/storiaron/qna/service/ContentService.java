@@ -147,7 +147,7 @@ public class ContentService {
     public void voteComment(VoteDTO voteDTO){
         Optional<Comment> commentOptional = commentRepository.findById(voteDTO.getId());
         QnAUser qnAUser = qnAUserRepository.findByUsername(voteDTO.getUsername());
-        if(commentOptional.isPresent()){
+        if(commentOptional.isPresent() && !qnAUser.getVotedComments().contains(commentOptional.get())){
             Comment comment = commentOptional.get();
             if(voteDTO.isUpVote()){
                 comment.setUpVotes(comment.getUpVotes() + 1);
@@ -155,11 +155,9 @@ public class ContentService {
             else {
                 comment.setDownVotes(comment.getDownVotes() + 1);
             }
-            comment.getVotedBy().add(qnAUser);
+            qnAUser.getVotedComments().add(comment);
             commentRepository.save(comment);
-            qnAUser.getUpvotedComments().add(comment);
             qnAUserRepository.save(qnAUser);
-
         }
     }
     @Transactional

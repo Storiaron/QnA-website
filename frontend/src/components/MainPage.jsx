@@ -17,7 +17,7 @@ function MainPage() {
       },
       body: JSON.stringify({
         startingFrom: dateOfLastLoadedContent,
-        isInDataSavingMode: false,
+        inDataSavingMode: false,
       }),
     });
     if (response.ok) {

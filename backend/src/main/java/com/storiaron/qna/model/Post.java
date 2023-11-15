@@ -29,10 +29,6 @@ public class Post {
     @ManyToOne
     @JsonBackReference(value = "user-post")
     private QnAUser qnAUser;
-    @ManyToMany
-    @JsonBackReference(value = "post-updated-by")
-    private Set<QnAUser> upvotedBy;
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

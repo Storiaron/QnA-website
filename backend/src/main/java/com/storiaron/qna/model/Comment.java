@@ -28,9 +28,6 @@ public class Comment {
     @ManyToOne
     @JsonBackReference(value = "user-comment")
     private QnAUser postedBy;
-    @ManyToMany
-    @JsonBackReference(value = "comment-upvoted-by")
-    private Set<QnAUser> votedBy;
 
 
     @Override

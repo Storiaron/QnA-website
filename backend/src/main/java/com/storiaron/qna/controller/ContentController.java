@@ -43,7 +43,6 @@ public class ContentController {
     }
     @PutMapping("comment/vote")
     public void voteComment(@RequestBody VoteDTO voteDTO){
-        System.out.println(voteDTO);
         contentService.voteComment(voteDTO);
     }
     @PutMapping("/post/vote")

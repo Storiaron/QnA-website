@@ -32,7 +32,7 @@ function CommentSection({ parentPostId }) {
       },
       body: JSON.stringify({
         startingFrom: dateOfLastLoadedComment,
-        isInDataSavingMode: false,
+        inDataSavingMode: false,
         parentPostId: parentPostId,
       }),
     });

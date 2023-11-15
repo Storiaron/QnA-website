@@ -28,9 +28,7 @@ public class QnAUser {
     @Enumerated(EnumType.STRING)
     private Role role;
     @ManyToMany
-    @JsonManagedReference(value = "comment-upvoted-by")
-    private Set<Comment> upvotedComments;
+    private Set<Comment> votedComments;
     @ManyToMany
-    @JsonManagedReference(value = "post-upvoted-by")
-    private Set<Post> upvotedPosts;
+    private Set<Post> votedPosts;
 }
