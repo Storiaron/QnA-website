@@ -11,7 +11,7 @@ This is a full stack web-application that creates a questions and answers websit
 * Registration, Login, Logout handled
 * Only users can post or comment, but quests can look through already written content
 * Each post and comment tracks the time passed since writing it (sorting by date of writing coming soon)
-* Each post and comment tracks upvotes and downvote (sorting by score coming soon)
+* Each post and comment tracks upvotes and downvotes (sorting by score coming soon)
 * Infinite Scroll and selectable data saving mode(preloads less content on each scroll to save data)
 ## Setup
 ### Prerequisites
