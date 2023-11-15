@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
 import InfiniteScroll from "react-infinite-scroll-component";
+import ThumbDownIcon from '@mui/icons-material/ThumbDown';
+import ThumbUpIcon from '@mui/icons-material/ThumbUp';
 import {
   Typography,
   List,
@@ -30,7 +32,7 @@ function CommentSection({ parentPostId }) {
       },
       body: JSON.stringify({
         startingFrom: dateOfLastLoadedComment,
-        isInDataSavingMode: false,
+        inDataSavingMode: false,
         parentPostId: parentPostId,
       }),
     });
@@ -62,6 +64,21 @@ function CommentSection({ parentPostId }) {
       }),
     });
   };
+  const handleVote = async(commentId, voteType) => {
+    console.log(voteType)
+    await fetch("/api/content/comment/vote", {
+      method: "PUT",
+      headers: {
+        Authorization: localStorage.getItem("token"),
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        id: commentId,
+        username: localStorage.getItem("username"),
+        upVote: voteType
+      })
+    })
+  }
   useEffect(() => {
     fetchContent();
   }, []);
@@ -136,16 +153,24 @@ function CommentSection({ parentPostId }) {
               <ListItem>
                 <ListItemText
                   primary={
-                    <Typography onClick={()=> navigate(`/user/${comment.username}`)} variant="subtitle2" color="textSecondary">
+                    <Typography
+                      onClick={() => navigate(`/user/${comment.username}`)}
+                      variant="subtitle2"
+                      color="textSecondary"
+                    >
                       {comment.username +
                         " " +
-                        timeDifferenceCalculator(comment.timeOfWriting)}
+                        timeDifferenceCalculator(comment.timeOfWriting) +
+                        ", " + (comment.upVotes - comment.downVotes) +
+                        " points"}
                     </Typography>
                   }
                   secondary={
                     <Typography variant="body2">{comment.body}</Typography>
                   }
                 />
+                <ThumbUpIcon onClick={() => handleVote(comment.id, true)}/>
+                <ThumbDownIcon onClick={() => handleVote(comment.id, false)}/>
               </ListItem>
               {index < comments.length - 1 && <Divider />}
             </div>

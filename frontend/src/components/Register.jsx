@@ -36,8 +36,11 @@ function Register() {
           },
           body: JSON.stringify(data),
         });
-        const wasSuccesful = await response.json();
-        if (!wasSuccesful) {
+        let wasSuccesful;
+        if(response.ok){
+          wasSuccesful = await response.json();
+        }
+        if (wasSuccesful === false) {
           setUsernameError("That username is already taken");
         }
       }

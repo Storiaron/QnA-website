@@ -27,4 +27,8 @@ public class QnAUser {
     private String password;
     @Enumerated(EnumType.STRING)
     private Role role;
+    @ManyToMany
+    private Set<Comment> votedComments;
+    @ManyToMany
+    private Set<Post> votedPosts;
 }

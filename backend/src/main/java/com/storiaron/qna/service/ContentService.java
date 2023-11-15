@@ -1,9 +1,6 @@
 package com.storiaron.qna.service;
 
-import com.storiaron.qna.dto.CommentAutoLoadDTO;
-import com.storiaron.qna.dto.CommentDTO;
-import com.storiaron.qna.dto.PostAutoLoadDTO;
-import com.storiaron.qna.dto.PostDTO;
+import com.storiaron.qna.dto.*;
 import com.storiaron.qna.dto.newdto.NewCommentDTO;
 import com.storiaron.qna.dto.newdto.NewPostDTO;
 import com.storiaron.qna.model.Comment;
@@ -20,7 +17,6 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 
 @Service
 public class ContentService {
@@ -145,5 +141,26 @@ public class ContentService {
             return postDTO;
         }
         return null;
+    }
+    @Transactional
+    public void voteComment(VoteDTO voteDTO){
+        Optional<Comment> commentOptional = commentRepository.findById(voteDTO.getId());
+        QnAUser qnAUser = qnAUserRepository.findByUsername(voteDTO.getUsername());
+        if(commentOptional.isPresent() && !qnAUser.getVotedComments().contains(commentOptional.get())){
+            Comment comment = commentOptional.get();
+            if(voteDTO.isUpVote()){
+                comment.setUpVotes(comment.getUpVotes() + 1);
+            }
+            else {
+                comment.setDownVotes(comment.getDownVotes() + 1);
+            }
+            qnAUser.getVotedComments().add(comment);
+            commentRepository.save(comment);
+            qnAUserRepository.save(qnAUser);
+        }
+    }
+    @Transactional
+    public void votePost(VoteDTO voteDTO){
+
     }
 }

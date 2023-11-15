@@ -29,7 +29,6 @@ public class Post {
     @ManyToOne
     @JsonBackReference(value = "user-post")
     private QnAUser qnAUser;
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

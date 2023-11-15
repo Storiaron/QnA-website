@@ -1,7 +1,6 @@
 package com.storiaron.qna.dto;
 
 import com.storiaron.qna.model.Comment;
-import com.storiaron.qna.model.QnAUser;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
